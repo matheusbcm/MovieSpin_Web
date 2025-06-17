@@ -179,6 +179,14 @@ npx prisma format
 npx prisma validate
 ```
 
+# Gerenciar banco de dados
+
+npm run db:generate # Regenerar cliente Prisma
+npm run db:push # Sincronizar schema
+npm run db:migrate # Criar migração
+npm run db:studio # Abrir Prisma Studio
+npm run db:seed # Popular com dados de exemplo
+
 ## Security Considerations
 
 - Never commit `.env` files with real credentials
