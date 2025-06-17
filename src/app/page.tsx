@@ -20,7 +20,9 @@ export default function Home() {
             </code>
             .
           </li>
-          <li className="tracking-[-.01em]">Testando o deploy do Next.js</li>
+          <li className="tracking-[-.01em] text-amber-400">
+            Testando o deploy do Next.js
+          </li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
