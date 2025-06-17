@@ -35,6 +35,8 @@ const eslintConfig = [
       'build/',
       '*.config.js',
       '*.config.mjs',
+      'src/generated/**/*',
+      '**/*.generated.*',
     ],
   },
 ];

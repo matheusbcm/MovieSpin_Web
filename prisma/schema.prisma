@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  name      String?
+  avatar    String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  lists     MovieList[]
+  reviews   Review[]
+  favorites Favorite[]
+  watchlist Watchlist[]
+
+  @@map("users")
+}
+
+model Movie {
+  id               Int      @id
+  title            String
+  overview         String?
+  posterPath       String?  @map("poster_path")
+  backdropPath     String?  @map("backdrop_path")
+  releaseDate      String   @map("release_date")
+  voteAverage      Float    @map("vote_average")
+  voteCount        Int      @map("vote_count")
+  popularity       Float
+  adult            Boolean  @default(false)
+  originalLanguage String   @map("original_language")
+  originalTitle    String   @map("original_title")
+  genreIds         Int[]    @map("genre_ids")
+  video            Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  listItems MovieListItem[]
+  reviews   Review[]
+  favorites Favorite[]
+  watchlist Watchlist[]
+
+  @@map("movies")
+}
+
+model MovieList {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isPublic    Boolean  @default(true) @map("is_public")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId String          @map("user_id")
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items  MovieListItem[]
+
+  @@map("movie_lists")
+}
+
+model MovieListItem {
+  id        String   @id @default(cuid())
+  order     Int
+  createdAt DateTime @default(now())
+
+  // Relations
+  listId  String    @map("list_id")
+  list    MovieList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  movieId Int       @map("movie_id")
+  movie   Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([listId, movieId])
+  @@map("movie_list_items")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int // 1-10 scale
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movieId Int    @map("movie_id")
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@map("reviews")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movieId Int    @map("movie_id")
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@map("favorites")
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movieId Int    @map("movie_id")
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@map("watchlist")
+}
