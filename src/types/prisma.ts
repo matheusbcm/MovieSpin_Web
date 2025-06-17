@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '@prisma/client';
 
 // User types
 export type UserWithLists = Prisma.UserGetPayload<{
