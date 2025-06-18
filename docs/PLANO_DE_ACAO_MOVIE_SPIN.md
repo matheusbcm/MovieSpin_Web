@@ -52,12 +52,14 @@ _Duração: 6-8 semanas_
 - **Responsável:** Backend Dev
 - **Tempo:** 4 dias
 
-**TICKET #004 - Sistema de Autenticação**
+**TICKET #004 - Sistema de Autenticação com Clerk**
 
-- [ ] Implementar NextAuth.js
-- [ ] Login com Google/GitHub/Email
-- [ ] Middleware de proteção de rotas
-- [ ] Páginas de login/registro
+- [ ] Configurar Clerk no projeto
+- [ ] Implementar ClerkProvider no layout
+- [ ] Criar páginas de sign-in/sign-up
+- [ ] Configurar middleware de proteção
+- [ ] Integrar dados do usuário com Prisma
+- [ ] Configurar webhooks para sincronização
 - **Responsável:** Fullstack Dev
 - **Tempo:** 4 dias
 
