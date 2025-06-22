@@ -10,10 +10,13 @@ async function main() {
     where: { email: 'john@example.com' },
     update: {},
     create: {
+      id: 'user_clerk_sample_1',
       email: 'john@example.com',
       username: 'johndoe',
-      name: 'John Doe',
+      firstName: 'John',
+      lastName: 'Doe',
       bio: 'Movie enthusiast and critic',
+      emailVerified: true,
     },
   });
 
@@ -21,10 +24,13 @@ async function main() {
     where: { email: 'jane@example.com' },
     update: {},
     create: {
+      id: 'user_clerk_sample_2',
       email: 'jane@example.com',
       username: 'janesmith',
-      name: 'Jane Smith',
+      firstName: 'Jane',
+      lastName: 'Smith',
       bio: 'Cinema lover and filmmaker',
+      emailVerified: true,
     },
   });
 

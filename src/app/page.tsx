@@ -1,102 +1,139 @@
-import Image from 'next/image';
+import Link from 'next/link';
+import { auth } from '@clerk/nextjs/server';
+import { UserButton } from '@clerk/nextjs';
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = await auth();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{' '}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em] text-amber-400">
-            Testando o deploy do Next.js
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      {/* Header */}
+      <header className="p-6">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-white">Movie Spin</h1>
+          <div className="flex items-center space-x-4">
+            {userId ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-white hover:text-purple-300 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <UserButton afterSignOutUrl="/" />
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/sign-in"
+                  className="text-white hover:text-purple-300 transition-colors"
+                >
+                  Entrar
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Criar Conta
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Hero Section */}
+      <main className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center">
+          <h2 className="text-6xl font-bold text-white mb-6">🎬 Movie Spin</h2>
+          <p className="text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Descubra filmes incríveis de forma divertida! Gire a roleta e
+            encontre o filme perfeito para o seu humor.
+          </p>
+
+          {!userId && (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                href="/sign-up"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors"
+              >
+                Começar Agora - Grátis
+              </Link>
+              <Link
+                href="/sign-in"
+                className="border border-white text-white hover:bg-white hover:text-purple-900 px-8 py-3 rounded-lg text-lg font-semibold transition-colors"
+              >
+                Já tenho conta
+              </Link>
+            </div>
+          )}
+
+          {userId && (
+            <Link
+              href="/dashboard"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors inline-block"
+            >
+              Ir para Dashboard
+            </Link>
+          )}
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+            <div className="text-4xl mb-4">🎲</div>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Spin Aleatório
+            </h3>
+            <p className="text-gray-300">
+              Deixe a sorte decidir! Nossa roleta encontra filmes baseados no
+              seu humor.
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+            <div className="text-4xl mb-4">🎯</div>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Personalizado
+            </h3>
+            <p className="text-gray-300">
+              Recomendações inteligentes baseadas nos seus gostos e histórico.
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+            <div className="text-4xl mb-4">🏆</div>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Gamificação
+            </h3>
+            <p className="text-gray-300">
+              Ganhe badges, complete desafios e compartilhe com amigos.
+            </p>
+          </div>
+        </div>
+
+        {/* Status */}
+        <div className="mt-20 text-center">
+          <div className="bg-yellow-500/20 border border-yellow-500/50 rounded-lg p-6 max-w-2xl mx-auto">
+            <h3 className="text-xl font-semibold text-yellow-300 mb-2">
+              🚧 Em Desenvolvimento
+            </h3>
+            <p className="text-yellow-200">
+              O Movie Spin está sendo desenvolvido! O sistema de autenticação já
+              está funcionando. Em breve: roleta de filmes, listas
+              personalizadas e muito mais.
+            </p>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="bg-black/20 backdrop-blur-sm py-8 mt-20">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-gray-400">
+            © 2024 Movie Spin - Descubra filmes de forma divertida
+          </p>
+        </div>
       </footer>
     </div>
   );
