@@ -14,14 +14,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  username  String   @unique
-  name      String?
-  avatar    String?
-  bio       String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String    @id // Clerk User ID
+  email         String    @unique
+  username      String?   @unique
+  firstName     String?   @map("first_name")
+  lastName      String?   @map("last_name")
+  imageUrl      String?   @map("image_url")
+  bio           String?
+  emailVerified Boolean   @default(false) @map("email_verified")
+  lastSignInAt  DateTime? @map("last_sign_in_at")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   // Relations
   lists     MovieList[]
