@@ -10,7 +10,7 @@ export default function SignInPage() {
           <p className="text-gray-300">Entre para descobrir filmes incríveis</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-xl p-6">
+        <div className="rounded-lg">
           <SignIn
             appearance={{
               elements: {
