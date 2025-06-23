@@ -2,6 +2,7 @@ import { UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/user';
+import { TMDBAttributionCompact } from '@/components/TMDBAttribution';
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -129,6 +130,11 @@ export default async function DashboardPage() {
             <li>• Compartilhar descobertas com amigos</li>
             <li>• Ganhar badges e conquistas</li>
           </ul>
+        </div>
+
+        {/* TMDB Attribution */}
+        <div className="flex justify-center pt-6">
+          <TMDBAttributionCompact />
         </div>
       </main>
     </div>
