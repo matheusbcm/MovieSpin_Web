@@ -10,7 +10,7 @@ export default function SignUpPage() {
           <p className="text-gray-300">Junte-se à nossa comunidade cinéfila</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-xl p-6">
+        <div className="rounded-lg">
           <SignUp
             appearance={{
               elements: {
