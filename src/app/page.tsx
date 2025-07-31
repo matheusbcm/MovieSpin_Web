@@ -1,14 +1,18 @@
-import Navigation from '../components/Navigation';
-import MovieRoulette from '../components/MovieRoulette';
-import MovieCard from '../components/MovieCard';
-import { movies } from '../data/movies';
+'use client';
 
-const Index = () => {
-  const featuredMovies = movies.slice(0, 4);
+// import Navigation from '@/components/Navigation';
+import MovieRoulette from '@/components/MovieRoulette';
+import MovieCard from '@/components/MovieCard';
+import { getPopularMovies } from '@/lib/tmdb/movies';
+
+export default async function HomePage() {
+  // Buscar filmes populares da API TMDB
+  const popularMoviesResponse = await getPopularMovies();
+  const featuredMovies = popularMoviesResponse.results.slice(0, 4);
 
   return (
     <div className="min-h-screen">
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4">
@@ -63,7 +67,7 @@ const Index = () => {
           <h2 className="section-header">Ready to Start Watching?</h2>
           <p className="body-text max-w-md mx-auto">
             Join thousands of movie lovers who have discovered their new
-            favorite films through CineRoulette.
+            favorite films through Movie Spin.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="btn-primary">Spin Again</button>
@@ -73,6 +77,4 @@ const Index = () => {
       </section>
     </div>
   );
-};
-
-export default Index;
+}

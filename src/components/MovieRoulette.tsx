@@ -1,23 +1,32 @@
 import { useState } from 'react';
-import { movies } from '../data/movies';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import { getRandomMovies } from '@/lib/tmdb/movies';
+import { TMDBMovie } from '@/types/tmdb';
 
 const MovieRoulette = () => {
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedMovie, setSelectedMovie] = useState<TMDBMovie | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
 
-  const spinMovie = () => {
+  const spinMovie = async () => {
     if (isSpinning) return;
 
     setIsSpinning(true);
     setSelectedMovie(null);
 
-    // Simulate spinning animation delay
-    setTimeout(() => {
-      const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      setSelectedMovie(randomMovie);
+    try {
+      // Simulate spinning animation delay
+      setTimeout(async () => {
+        // Obter um filme aleatório da API TMDB
+        const randomMovies = await getRandomMovies({}, 1);
+        if (randomMovies.length > 0) {
+          setSelectedMovie(randomMovies[0]);
+        }
+        setIsSpinning(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Erro ao buscar filme aleatório:', error);
       setIsSpinning(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -63,7 +72,11 @@ const MovieRoulette = () => {
           <div className="movie-card">
             <div className="flex items-center space-x-4">
               <img
-                src={selectedMovie.poster}
+                src={
+                  selectedMovie.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`
+                    : '/placeholder-poster.jpg'
+                }
                 alt={selectedMovie.title}
                 className="w-20 h-28 object-cover rounded-lg"
               />
@@ -72,21 +85,18 @@ const MovieRoulette = () => {
                   {selectedMovie.title}
                 </h3>
                 <p className="text-sm text-cinema-white">
-                  {selectedMovie.year} • {selectedMovie.duration}
+                  {selectedMovie.release_date?.substring(0, 4) || 'N/A'}
                 </p>
                 <div className="flex items-center space-x-2">
                   <span className="metadata-text">
-                    ★ {selectedMovie.rating}
-                  </span>
-                  <span className="text-cinema-white text-sm">
-                    {selectedMovie.genre.slice(0, 2).join(', ')}
+                    ★ {selectedMovie.vote_average.toFixed(1)}
                   </span>
                 </div>
               </div>
             </div>
             <div className="mt-4 pt-4 border-t border-cinema-purple/30">
               <Link
-                to={`/movie/${selectedMovie.id}`}
+                href={`/movie/${selectedMovie.id}`}
                 className="btn-secondary w-full block text-center"
               >
                 View Details
