@@ -1,5 +1,3 @@
-'use client';
-
 // import Navigation from '@/components/Navigation';
 import MovieRoulette from '@/components/MovieRoulette';
 import MovieCard from '@/components/MovieCard';

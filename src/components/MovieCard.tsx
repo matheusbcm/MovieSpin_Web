@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { TMDBMovie } from '@/types/tmdb';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 interface MovieCardProps {
   movie: TMDBMovie;
@@ -15,14 +15,13 @@ const MovieCard = ({ movie, className = '' }: MovieCardProps) => {
     >
       <div className="relative overflow-hidden rounded-lg mb-4">
         <div className="w-full h-64 relative">
-          <Image
+          <img
             src={
               movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 : '/placeholder-poster.jpg'
             }
             alt={movie.title}
-            fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             className="object-cover transition-transform duration-500 group-hover:scale-110"
           />

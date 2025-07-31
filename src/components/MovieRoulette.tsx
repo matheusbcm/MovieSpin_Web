@@ -1,6 +1,7 @@
+'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
-import { getRandomMovies } from '@/lib/tmdb/movies';
 import { TMDBMovie } from '@/types/tmdb';
 
 const MovieRoulette = () => {
@@ -16,15 +17,24 @@ const MovieRoulette = () => {
     try {
       // Simulate spinning animation delay
       setTimeout(async () => {
-        // Obter um filme aleatório da API TMDB
-        const randomMovies = await getRandomMovies({}, 1);
-        if (randomMovies.length > 0) {
-          setSelectedMovie(randomMovies[0]);
+        try {
+          // Chamar API route para buscar filme aleatório
+          const response = await fetch('/api/movies/random?count=1');
+          if (response.ok) {
+            const randomMovies = await response.json();
+            if (randomMovies.length > 0) {
+              setSelectedMovie(randomMovies[0]);
+            }
+          } else {
+            console.error('Erro na resposta da API:', response.status);
+          }
+        } catch (fetchError) {
+          console.error('Erro ao buscar filme aleatório:', fetchError);
         }
         setIsSpinning(false);
       }, 2000);
     } catch (error) {
-      console.error('Erro ao buscar filme aleatório:', error);
+      console.error('Erro geral no spin:', error);
       setIsSpinning(false);
     }
   };
@@ -34,7 +44,7 @@ const MovieRoulette = () => {
       <div className="space-y-4">
         <h2 className="section-header">Ready for your next movie?</h2>
         <p className="body-text max-w-md mx-auto">
-          Can't decide what to watch? Let fate choose for you with our movie
+          Cannot decide what to watch? Let fate choose for you with our movie
           roulette!
         </p>
       </div>
