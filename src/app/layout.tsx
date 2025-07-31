@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import {
+  Geist,
+  Geist_Mono,
+  Montserrat,
+  Lora,
+  Hind_Madurai,
+} from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import Footer from '@/components/Footer';
 import './globals.css';
@@ -12,6 +18,25 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+});
+
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const lora = Lora({
+  variable: '--font-lora',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const hindMadurai = Hind_Madurai({
+  variable: '--font-hind',
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -30,7 +55,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="pt-BR">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+          className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${lora.variable} ${hindMadurai.variable} antialiased min-h-screen flex flex-col`}
         >
           <main className="flex-1">{children}</main>
           <Footer />

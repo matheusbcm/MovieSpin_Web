@@ -1,26 +1,148 @@
 @import 'tailwindcss';
 
+/* CSS Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a041a;
+  --foreground: #f5f5f5;
+  --border: #6a0dad;
+  --input: #6a0dad;
+  --ring: #ffd700;
+  --muted: #6a0dad;
+  --muted-foreground: #f5f5f5;
+  --destructive: #dc2626;
+  --destructive-foreground: #f5f5f5;
+  --radius: 0.5rem;
 }
 
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Primary colors */
+  --color-primary: #ffd700;
+  --color-primary-foreground: #0a041a;
+
+  /* Secondary colors */
+  --color-secondary: #6a0dad;
+  --color-secondary-foreground: #f5f5f5;
+
+  /* Accent colors */
+  --color-accent: #6a0dad;
+  --color-accent-foreground: #f5f5f5;
+
+  /* Destructive colors */
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Muted colors */
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  /* Popover colors */
+  --color-popover: #0a041a;
+  --color-popover-foreground: #f5f5f5;
+
+  /* Card colors */
+  --color-card: #0a041a;
+  --color-card-foreground: #f5f5f5;
+
+  /* Custom movie platform colors */
+  --color-cinema-dark: #0a041a;
+  --color-cinema-gold: #ffd700;
+  --color-cinema-purple: #6a0dad;
+  --color-cinema-white: #f5f5f5;
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-lora: 'Lora', serif;
+  --font-hind: 'Hind Madurai', sans-serif;
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Animations */
+  --animate-spin-slow: spin-slow 8s linear infinite;
+  --animate-fade-in: fade-in 0.6s ease-out;
+  --animate-slide-up: slide-up 0.8s ease-out;
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a041a;
+    --foreground: #f5f5f5;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Custom utility classes */
+.btn-primary {
+  @apply bg-cinema-gold text-cinema-dark px-6 py-3 rounded-lg font-montserrat font-semibold hover:bg-yellow-500 transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-cinema-purple text-cinema-white px-6 py-3 rounded-lg font-montserrat font-semibold hover:bg-purple-700 transition-colors duration-200;
+}
+
+.movie-card {
+  @apply bg-cinema-dark border border-cinema-purple/30 rounded-xl p-6 hover:border-cinema-gold/50 transition-all duration-300;
+}
+
+.hero-title {
+  @apply text-5xl md:text-6xl font-montserrat font-bold text-cinema-gold leading-tight;
+}
+
+.section-header {
+  @apply text-3xl md:text-4xl font-montserrat font-bold text-cinema-gold;
+}
+
+.body-text {
+  @apply text-cinema-white font-hind leading-relaxed;
+}
+
+.metadata-text {
+  @apply text-sm text-cinema-white/70 font-hind;
 }
