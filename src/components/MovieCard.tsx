@@ -1,41 +1,62 @@
-import Image from 'next/image';
-
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-  vote_average: number;
-}
+import Link from 'next/link';
+import { TMDBMovie } from '@/types/tmdb';
+// import Image from 'next/image';
 
 interface MovieCardProps {
-  movie: Movie;
+  movie: TMDBMovie;
+  className?: string;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+const MovieCard = ({ movie, className = '' }: MovieCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="relative h-96">
-        <Image
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={`${movie.title} poster`}
-          fill
-          className="object-cover"
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2">{movie.title}</h3>
-        <p className="text-gray-600 mb-2">{movie.overview}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-500">
-            {new Date(movie.release_date).getFullYear()}
-          </span>
-          <span className="bg-yellow-400 text-black px-2 py-1 rounded">
-            {movie.vote_average.toFixed(1)}
-          </span>
+    <Link
+      href={`/movie/${movie.id}`}
+      className={`movie-card group block ${className}`}
+    >
+      <div className="relative overflow-hidden rounded-lg mb-4">
+        <div className="w-full h-64 relative">
+          <img
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : '/placeholder-poster.jpg'
+            }
+            alt={movie.title}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        </div>
+        <div className="absolute top-3 right-3 bg-cinema-gold text-cinema-dark px-2 py-1 rounded-md font-hind font-medium text-xs">
+          ★ {movie.vote_average.toFixed(1)}
         </div>
       </div>
-    </div>
+
+      <div className="space-y-2">
+        <h3 className="font-montserrat font-bold text-lg text-cinema-white group-hover:text-cinema-gold transition-colors duration-300">
+          {movie.title}
+        </h3>
+
+        <div className="flex items-center justify-between">
+          <span className="metadata-text">
+            {movie.release_date?.substring(0, 4) || 'N/A'}
+          </span>
+        </div>
+
+        {movie.genre_ids && (
+          <div className="flex flex-wrap gap-1">
+            {movie.genre_ids.slice(0, 2).map((genreId, index) => (
+              <span
+                key={index}
+                className="bg-cinema-purple/30 text-cinema-white px-2 py-1 rounded-full text-xs font-hind"
+              >
+                {genreId}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </Link>
   );
-}
+};
+
+export default MovieCard;
